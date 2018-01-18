@@ -5,27 +5,28 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-
   <ion-navbar>
     <ion-title>login</ion-title>
   </ion-navbar>
-
 </ion-header>
-
 
 <ion-content padding>
   <ion-grid>
     <ion-row>
       <ion-col width-100>
         <ion-list >
-          <form #f="ngForm" (ngSubmit)="saveForm()">
+          <form #f="ngForm" (ngSubmit)="doLogin()">
             <ion-item>
-             <ion-label>login</ion-label>
+             <ion-label>Логин</ion-label>
              <ion-input [(ngModel)]="account.login" [ngModelOptions]="{standalone: true}"></ion-input>
             </ion-item>
             <ion-item>
-              <ion-label>password</ion-label>
+              <ion-label>Пароль</ion-label>
               <ion-input [(ngModel)]="account.password" [ngModelOptions]="{standalone: true}"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-checkbox [(ngModel)]="account.isRemember" [ngModelOptions]="{standalone: true}"></ion-checkbox>
+              <ion-label>Запомнить меня</ion-label>
             </ion-item>
             <button ion-button clear type="submit">Войти</button>
           </form>

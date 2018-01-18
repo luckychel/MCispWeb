@@ -1,8 +1,11 @@
 {
-  "name": "iweather",
+  "name": "MCispWeb",
   "app_id": "",
   "type": "ionic-angular",
   "integrations": {
     "cordova": {}
+  },
+  "serve": {
+    "defaultBrowser":"chrome"
   }
 }

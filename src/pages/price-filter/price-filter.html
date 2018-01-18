@@ -1,0 +1,64 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Расширенный фильтр</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+    <ion-list>
+        <ion-item>
+            <input type="hidden" [(ngModel)]="filter.BUNK_ID" />
+            <ion-label *ngIf="filter.BUNK_NAME!==''" color="mygrey" floating (click)='onBunkSelect()'>Склад</ion-label>
+            <ion-input class="myinput" color="mygrey" type='text' [(ngModel)]="filter.BUNK_NAME" readonly="true" [ngClass]="{'height67': standartBunkHeight() }" placeholder="{{filter.BUNK_NAME==='' ? 'Склад' : ''}}" (click)="onBunkSelect()"></ion-input>
+            <button ion-button item-right clear (click)='onBunkClear($event)' *ngIf="filter.BUNK_NAME!==''" >
+                <ion-icon name="close"></ion-icon>
+            </button>
+        </ion-item>
+        <ion-item>
+            <input type="hidden" [(ngModel)]="filter.BUNKTOV_DEPT_ID" />
+            <ion-label *ngIf="filter.BUNKTOV_DEPT_NAME!==''" color="mygrey" floating (click)='onBunkTovDeptSelect()'>Отдел</ion-label>
+            <ion-input class="myinput" color="mygrey" type='text' [(ngModel)]="filter.BUNKTOV_DEPT_NAME" readonly="true" [ngClass]="{'height67': standartBunkTovDeptHeight() }" placeholder="{{filter.BUNKTOV_DEPT_NAME==='' ? 'Отдел' : ''}}" (click)="onBunkTovDeptSelect()"></ion-input>
+            <button ion-button item-right clear (click)='onBunkTovDeptClear($event)' *ngIf="filter.BUNKTOV_DEPT_NAME!==''" >
+                <ion-icon name="close"></ion-icon>
+            </button>
+        </ion-item>
+        <ion-item>
+            <input type="hidden" [(ngModel)]="filter.PLIST_ID" />
+            <ion-label *ngIf="filter.PLIST!==''" color="mygrey" floating (click)='onPlistSelect()'>Прайс</ion-label>
+            <ion-input class="myinput" color="mygrey" type='text' [(ngModel)]="filter.PLIST" readonly="true" [ngClass]="{'height67': standartPlistHeight() }" placeholder="{{filter.PLIST==='' ? 'Прайс' : ''}}" (click)='onPlistSelect()'></ion-input>
+            <button ion-button item-right clear (click)='onPlistClear($event)' *ngIf="filter.PLIST!==''" >
+                <ion-icon name="close"></ion-icon>
+            </button>
+        </ion-item>
+        <ion-item>
+            <input type="hidden" [(ngModel)]="filter.PLIST_LEVEL_ID" />
+            <ion-label *ngIf="filter.PLIST_LEVEL!==''" color="mygrey" floating (click)='onPlistLevelSelect()'>Прайс Д</ion-label>
+            <ion-input class="myinput" color="mygrey" type='text' [(ngModel)]="filter.PLIST_LEVEL" readonly="true" [ngClass]="{'height67': standartPlistLevelHeight() }" placeholder="{{filter.PLIST_LEVEL==='' ? 'Прайс Д' : ''}}" (click)='onPlistLevelSelect()'></ion-input>
+            <button ion-button item-right clear (click)='onPlistLevelClear($event)' *ngIf="filter.PLIST_LEVEL!==''" >
+                <ion-icon name="close"></ion-icon>
+            </button>
+        </ion-item>
+        <ion-item>
+            <input type="hidden" [(ngModel)]="filter.CCY_ID" />
+            <ion-label *ngIf="filter.CCY!==''" color="mygrey" floating (click)='onCcySelect()'>Прайс Д</ion-label>
+            <ion-input class="myinput" color="mygrey" type='text' [(ngModel)]="filter.CCY" readonly="true" [ngClass]="{'height67': standartCcyHeight() }" placeholder="{{filter.CCY==='' ? 'Валюта' : ''}}" (click)='onCcySelect()'></ion-input>
+            <button ion-button item-right clear (click)='onCcyClear($event)' *ngIf="filter.CCY!==''" >
+                <ion-icon name="close"></ion-icon>
+            </button>
+        </ion-item>
+        <ion-item>
+            <button ion-button block color="primary" (click)="onSubmit()">{{findText}}</button>
+        </ion-item>
+
+      </ion-list>
+
+
+</ion-content>
+
+<!--
+  <input name="first" ngModel required #first="ngModel">
+  <input name="last" ngModel #last="ngModel"> 
+-->
+<!-- <ion-picker #searchbarBunk [dataProvider]="bunkService" [showResultsFirst]=1 [options]="{ placeholder : 'Склад', id: 'BUNK_ID', name: 'BUNK_NAME' }" (itemSelected) = "onBunkSelected($event)" (itemCleared)="onBunkClear($event)"></ion-picker> -->
+<!-- <ion-picker #searchbarBunkTov [dataProvider]="bunkTovService" [showResultsFirst]=1 [options]="{ placeholder : 'Отдел', id: 'BUNKTOV_DEPT_ID', name: 'BUNKTOV_DEPT_NAME' }" (itemSelected) = "onBunkTovDeptSelected($event)" (itemCleared)="onBunkTovDeptClear($event)"></ion-picker> -->

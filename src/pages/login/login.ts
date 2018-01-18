@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, AlertController, ToastController, LoadingController, MenuController } from 'ionic-angular';
+
 import { NgForm} from '@angular/forms';
-import { Storage } from '@ionic/storage';
 import { DbProvider } from '../../providers/db/db';
 import { UserProvider } from '../../providers/user/user';
+
+import { HomePage } from '../home/home';
 
 @Component({
   selector: 'page-login',
@@ -11,31 +13,94 @@ import { UserProvider } from '../../providers/user/user';
 })
 export class LoginPage {
 
-  account: { login: string, password: string } = {
-    login: "",
-    password: ""
-  };
-  
-  constructor(public navCtrl: NavController, public navParams: NavParams, private storage: Storage, private db: DbProvider, private user: UserProvider) {
-    
-  }
+  loader: any;
+  _user : any;
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad LoginPage');
+  account: { login: string, password: string, isRemember: boolean } = {
+    login: "",
+    password: "",
+    isRemember: false
+  };
+
+  constructor(public navCtrl: NavController, 
+    public navParams: NavParams, 
+    private db: DbProvider, 
+    private user: UserProvider,
+    public alertCtrl: AlertController,
+    public toastCtrl: ToastController,
+    public loadingCtrl: LoadingController,
+    public menuCtrl: MenuController,
+ ) 
+  {
+    console.log("constructor login")
+    this._user = user._user;
   }
 
   async ionViewWillEnter(){
     this.account.login = await this.db.getValue("login");
     this.account.password = await this.db.getValue("password");
+    let r = await this.db.getValue("isRemember");
+    this.account.isRemember = (r === "false" || r === false ? false : r === "" ? false : true);
   }
 
-  saveForm(f: NgForm){
+  doLogin(f: NgForm){
+
+    if (!this.checkOnEmpty()) 
+      return;
+
+    this.showLoader();
+
+    this.user.login(this.account)
+      .then((res)=> {
+        if (this.user._user.isAuth) {
+           this.navCtrl.setRoot(HomePage);
+        }
+        else {
+          this.showToastr("Ошибка авторизации! " + this.user._user.authError);
+        } 
+        this.hideLoader();
+      })
+      .catch((err)=>{
+        this.showToastr("Ошибка авторизации! " + err.message);
+        this.hideLoader();
+      })
+  }
+
+  checkOnEmpty(){
+    let err: string = "";
+    if (this.account.login === "") 
+      err = "Заполните поле \"Логин\"";
+    else if (this.account.password === "")
+      err = "Заполните поле \"Пароль\"";
+    if (err !== "")
+    {
+      this.showToastr(err);
+      return false;
+    }
+    else 
+      return true;
+  }
+
+  showLoader(){
+    this.loader = this.loadingCtrl.create({
+      content: 'Пожалуйста подождите...'
+    });
+    this.loader.present();
+  }
   
-
-    this.user.login("")  
-    this.db.setValue('login', this.account.login);
-    this.db.setValue('password', this.account.password);
-    
-
+  hideLoader(){
+    setTimeout(() => {
+        this.loader.dismiss();
+    });
   }
+
+  showToastr(message){
+    let toast = this.toastCtrl.create({
+      message: message,
+      duration: 3000,
+      position: 'top'
+    });
+    toast.present();
+  }
+
 }
